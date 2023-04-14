@@ -1,0 +1,4 @@
+1. npm create vite@latest
+2. npm i sass - we can use and import scss files, vite handle it for us 
+3. use React Router
+4 npm i vite-plugin-svgr to use ReactComponent as SVG - to use svg as component in React
