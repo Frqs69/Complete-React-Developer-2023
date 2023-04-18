@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import CategoryContainer from "./../../components/category-container/category-container.component";
 
 
