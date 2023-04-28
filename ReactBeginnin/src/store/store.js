@@ -3,9 +3,23 @@ import logger from "redux-logger";
 
 import { rootReducer } from "./root-reducer";
 
+// creating our own middleware
+const loggerMiddleware = (store) => (next) => (action) => {
+	if (!action.type) {
+		return next(action);
+	}
+	console.log("type: ", action.type);
+	console.log("payload: ", action.payload);
+	console.log("currentState: ", store.getState());
+
+	next(action);
+
+	console.log("nextState: ", store.getState());
+};
+
 // create middleware which run before reduce after dispatch action
 // used to log out actions in this case
-const middleWares = [logger];
+const middleWares = [loggerMiddleware];
 
 // join multiple functions in one function using compose
 // in this case we compose multiple middlewares if we have if not,
