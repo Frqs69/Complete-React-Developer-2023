@@ -134,6 +134,7 @@ export const createUserDocumentFromAuth = async (
 		}
 	}
 
+	// const data = await setDoc(userDocRef);
 	// return userDocRef
 	return userDocRef;
 };
@@ -156,7 +157,6 @@ export const onAuthStateChangedListener = (callback) => {
 	onAuthStateChanged(auth, callback);
 };
 
-
 export const getCurrentUser = () => {
 	return new Promise((resolve, reject) => {
 		const unsubscribe = onAuthStateChanged(
@@ -166,6 +166,6 @@ export const getCurrentUser = () => {
 				resolve(userAuth);
 			},
 			reject
-		)
-	})
-}
+		);
+	});
+};
