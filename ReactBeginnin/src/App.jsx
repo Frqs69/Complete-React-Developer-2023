@@ -11,7 +11,7 @@ import {
 	onAuthStateChangedListener,
 	createUserDocumentFromAuth,
 } from "./utils/firebase/firebase.utils";
-import { setCurrentUser } from "./store/user/user.action";
+import { setCurrentUser } from "./store/user/user.reducer";
 
 // index - if you hit route '/' it will be rendered as base component
 function App() {
@@ -22,6 +22,7 @@ function App() {
 			if (user) {
 				createUserDocumentFromAuth(user);
 			}
+			console.log(setCurrentUser(user));
 			dispatch(setCurrentUser(user));
 		});
 
