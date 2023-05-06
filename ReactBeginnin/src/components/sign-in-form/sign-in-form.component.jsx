@@ -6,48 +6,41 @@ import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import { ButtonContainer, SignInContainer } from "./sign-in-form.styles";
 import {
-	googleSignInStart,
-	emailSignInStart,
-} from "../../store/user/user.action";
+	signInWithGooglePopup,
+	signInUserWithEmailAndPasswordForm,
+} from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
 	email: "",
 	password: "",
 };
 const SignInForm = () => {
-	const dispatch = useDispatch();
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { email, password } = formFields;
-
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormFields({ ...formFields, [name]: value });
-	};
 
 	const resetFormFields = () => {
 		setFormFields(defaultFormFields);
 	};
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+	const signInWithGoogle = async () => {
+		await signInWithGooglePopup();
+	};
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
 
 		try {
-			dispatch(emailSignInStart(email, password));
-
+			await signInUserWithEmailAndPasswordForm(email, password);
 			resetFormFields();
-		} catch (err) {
-			if (err.code === "auth/user-not-found") {
-				alert("User with this email does not exist");
-			} else if (err.code === "auth/wrong-password") {
-				alert("Incorrect password");
-			} else {
-				console.log(err);
-			}
+		} catch (error) {
+			console.log("user sign in failed", error);
 		}
 	};
 
-	const signInWithGoogle = async () => {
-		dispatch(googleSignInStart());
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+
+		setFormFields({ ...formFields, [name]: value });
 	};
 
 	return (

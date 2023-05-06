@@ -8,10 +8,11 @@ import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import { selectIsCartOpen } from "../../store/cart/cart.selector";
-
-import { signOutStart } from "../../store/user/user.action";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 import { ReactComponent as CrownLogo } from "./../../assets/crown.svg";
+
+import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 import {
 	NavigationContainer,
@@ -20,18 +21,12 @@ import {
 	NavLink,
 } from "./navigation.styles";
 
-import { selectCurrentUser } from "../../store/user/user.selector";
-
 const Navigation = () => {
-	const dispatch = useDispatch();
-
 	// hook witch we give selector function which extracts value which
 	// want from store in this case we use user Reducer from Redux
 	// and we take currentUser from user
 	const currentUser = useSelector(selectCurrentUser);
 	const isCartOpen = useSelector(selectIsCartOpen);
-
-	const signOutUser = () => dispatch(signOutStart());
 
 	return (
 		<Fragment>

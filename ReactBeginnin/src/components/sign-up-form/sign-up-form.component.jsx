@@ -10,7 +10,6 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import { SignUpContainer } from "./sign-up-form.styles";
-import { signUpStart } from "../../store/user/user.action";
 
 const defaultFormFields = {
 	displayName: "",
@@ -20,41 +19,42 @@ const defaultFormFields = {
 };
 
 const SignUpForm = () => {
-	const dispatch = useDispatch();
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { displayName, email, password, confirmPassword } = formFields;
-
-	// add value from fields to formFields object
-	const handleChange = (event) => {
-		const { name, value } = event.target;
-
-		setFormFields({ ...formFields, [name]: value });
-	};
 
 	const resetFormFields = () => {
 		setFormFields(defaultFormFields);
 	};
 
-	// handle submit form
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		if (password !== confirmPassword) {
-			alert("Passwords do not match");
+			alert("passwords do not match");
 			return;
 		}
 
 		try {
-			dispatch(signUpStart(email, password, displayName));
+			const { user } = await createUserWithEmailAndPasswordForm(
+				email,
+				password
+			);
 
+			await createUserDocumentFromAuth(user, { displayName });
 			resetFormFields();
-		} catch (err) {
+		} catch (error) {
 			if (error.code === "auth/email-already-in-use") {
 				alert("Cannot create user, email already in use");
 			} else {
-				console.log(err);
+				console.log("user creation encountered an error", error);
 			}
 		}
+	};
+
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+
+		setFormFields({ ...formFields, [name]: value });
 	};
 
 	return (
