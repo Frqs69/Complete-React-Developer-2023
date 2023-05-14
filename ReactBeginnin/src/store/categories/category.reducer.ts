@@ -1,6 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const CATEGORIES_INITIAL_STATE = {
+export type CategoryItem = {
+	id: number;
+	imageUrl: string;
+	name: string;
+	price: number;
+};
+
+export type Category = {
+	title: string;
+	imageUrl: string;
+	items: CategoryItem[];
+};
+
+export type CategoryMap = {
+	[key: string]: CategoryItem[];
+};
+
+export type CategoriesState = {
+	readonly categories: Category[];
+};
+
+export const CATEGORIES_INITIAL_STATE: CategoriesState = {
 	categories: [],
 };
 
