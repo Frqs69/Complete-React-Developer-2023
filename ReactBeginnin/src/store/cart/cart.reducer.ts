@@ -1,6 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CategoryItem } from "../categories/category.reducer";
 
-const addCartItem = (cartItems, productToAdd) => {
+export type CartItem = CategoryItem & {
+	quantity: number;
+};
+
+const addCartItem = (
+	cartItems: CartItem[],
+	productToAdd: CategoryItem
+): CartItem[] => {
 	// find if cartItems contains productToAdd
 	// find method return cartItem if condition is true
 	const existingCartItem = cartItems.find(
@@ -21,7 +29,10 @@ const addCartItem = (cartItems, productToAdd) => {
 	return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
-const removeCartItem = (cartItems, productToRemove) => {
+const removeCartItem = (
+	cartItems: CartItem[],
+	productToRemove: CartItem
+): CartItem[] => {
 	// find if cartItems contains productToRemove
 	// find method return cartItem if condition is true
 	const existingCartItem = cartItems.find(
@@ -29,7 +40,7 @@ const removeCartItem = (cartItems, productToRemove) => {
 	);
 
 	// if found increment quantity
-	if (existingCartItem.quantity === 1) {
+	if (existingCartItem && existingCartItem.quantity === 1) {
 		// if cart item.id not equal to productToRemove.id then keep the value
 		// in this case cartItem
 		// if cartItem.id EQUAL to productToRemove.id filter cartItem out
@@ -44,11 +55,19 @@ const removeCartItem = (cartItems, productToRemove) => {
 	);
 };
 
-const deleteCartItem = (cartItems, productToDelete) => {
+const deleteCartItem = (
+	cartItems: CartItem[],
+	productToDelete: CartItem
+): CartItem[] => {
 	return cartItems.filter((cartItem) => cartItem.id !== productToDelete.id);
 };
 
-export const CART_INITIAL_STATE = {
+export type CartState = {
+	isCartOpen: boolean;
+	cartItems: CartItem[];
+};
+
+export const CART_INITIAL_STATE: CartState = {
 	isCartOpen: false,
 	cartItems: [],
 };
