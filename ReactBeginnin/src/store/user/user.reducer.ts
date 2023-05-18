@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { USER_ACTION_TYPES } from "./user.types";
+import { UserData } from "../../utils/firebase/firebase.utils";
 
-const INITIAL_STATE = {
+export type UserState = {
+	readonly currentUser: UserData | null;
+};
+
+const INITIAL_STATE: UserState = {
 	currentUser: null,
 };
 
